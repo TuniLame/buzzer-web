@@ -1,0 +1,59 @@
+
+
+
+{% if party %}
+    <div class="player">
+    <ul class="{% if party.checked == 1 %}checked{% endif %}">
+        <li>
+        {{ party.user1 }}
+        </li>
+        <li>
+        {{ party.points1 }}
+        </li>
+    </ul>
+    <ul class="{% if party.checked == 2 %}checked{% endif %}">
+        <li>
+        {{ party.user2 }}
+        </li>
+        <li>
+        {{ party.points2 }}
+        </li>
+    </ul>
+    <ul class="{% if party.checked == 3 %}checked{% endif %}">
+        <li>
+        {{ party.user3 }}
+        </li>
+        <li>
+        {{ party.points3 }}
+        </li>
+    </ul>
+    <ul class="{% if party.checked == 4 %}checked{% endif %}">
+        <li>
+        {{ party.user4 }}
+        </li>
+        <li>
+        {{ party.points4 }}
+        </li>
+    </ul>
+    </div>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+
+<h1>{{ poll.question }}</h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<!--<ul>-->
+<!--{% for choice in poll.choice_set.all %}-->
+<!--    <li>{{ choice.choice }}</li>-->
+<!--{% endfor %}-->
+<!--</ul>-->
+<form action="/polls/{{ poll.id }}/vote/" method="post">
+	{% csrf_token %}
+	{% for choice in poll.choice_set.all %}
+	<input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+	<label for="choice{{ forloop.counter }}">{{ choice.choice }}</label><br />
+
+{% endfor %}
+<input type="submit" value="Vote" />
+</form>
